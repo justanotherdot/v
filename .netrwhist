@@ -1,0 +1,7 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =5
+let g:netrw_dirhist_1='/home/rjs/misc/refuge/lib'
+let g:netrw_dirhist_2='/home/rjs/misc/refuge/lib/refuge_web'
+let g:netrw_dirhist_3='/home/rjs/misc/refuge/lib'
+let g:netrw_dirhist_4='/home/rjs/misc/refuge/lib/refuge'
+let g:netrw_dirhist_5='/home/rjs/misc/refuge/lib'
