@@ -97,6 +97,8 @@ nnoremap <silent> <leader>rg :Rg <CR>
 augroup setup
   au! BufEnter * EnableStripWhitespaceOnSave
   au! BufRead,BufNewFile *.md setlocal spell
+  au! BufEnter *.md set tw=80
+  au! BufEnter *.md set complete+=kspell
   au! BufWritePost * Neomake
   au! FileType gitcommit set tw=72
   au! FileType gitcommit setlocal spell
