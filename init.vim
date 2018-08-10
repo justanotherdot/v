@@ -19,11 +19,11 @@ Plug 'ntpeters/vim-better-whitespace'
 Plug 'scrooloose/nerdcommenter'
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 call plug#end()
-
 
 colo Base2Tone_PoolDark
 
@@ -93,6 +93,8 @@ nnoremap <leader><leader> :noh<CR>
 nnoremap <leader>m :Neomake<CR>
 nnoremap <leader>s :StripWhitespace<CR>
 nnoremap <silent> <leader>rg :Rg <CR>
+tnoremap <esc> <C-\><C-n>
+nnoremap <leader>yfp :let @+ = expand("%")<CR>
 
 augroup setup
   au! BufEnter * EnableStripWhitespaceOnSave
@@ -100,6 +102,8 @@ augroup setup
   au! BufEnter *.md set tw=80
   au! BufEnter *.md set complete+=kspell
   au! BufWritePost * Neomake
+  au! FileType markdown set tw=80
+  au! FileType markdown set complete+=kspell
   au! FileType gitcommit set tw=72
   au! FileType gitcommit setlocal spell
   au! FileType haskell nnoremap <silent> <leader>ai
