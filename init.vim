@@ -22,6 +22,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'prettier/vim-prettier'
 
 call plug#end()
 
@@ -71,6 +72,9 @@ let g:fzf_colors =
    \ 'marker':  ['fg', 'Keyword'],
    \ 'spinner': ['fg', 'Label'],
    \ 'header':  ['fg', 'Comment'] }
+let g:airline_powerline_fonts = 0
+let g:airline_left_sep = ''
+let g:airline_right_sep = ''
 
 cnoremap w!! w !sudo tee > /dev/null %
 nnoremap <A-;> ,
@@ -99,12 +103,12 @@ nnoremap <leader>yfp :let @+ = expand("%")<CR>
 augroup setup
   au! BufEnter * EnableStripWhitespaceOnSave
   au! BufRead,BufNewFile *.md setlocal spell
-  au! BufEnter *.md set tw=80
-  au! BufEnter *.md set complete+=kspell
+  au! BufEnter *.md setlocal tw=80
+  au! BufEnter *.md setlocal complete+=kspell
   au! BufWritePost * Neomake
-  au! FileType markdown set tw=80
-  au! FileType markdown set complete+=kspell
-  au! FileType gitcommit set tw=72
+  au! FileType markdown setlocal complete+=kspell
+  au! FileType markdown setlocal tw=80
+  au! FileType gitcommit setlocal tw=72
   au! FileType gitcommit setlocal spell
   au! FileType haskell nnoremap <silent> <leader>ai
         \ vip :sort r /\u.*/<CR> <Bar> :Tabularize /^import qualified\\|^import\\|^$<CR>
