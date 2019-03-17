@@ -6,9 +6,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'airblade/vim-gitgutter'
 Plug 'atelierbram/Base2Tone-vim'
 Plug 'fatih/vim-go'
-Plug 'floobits/floobits-neovim'
 Plug 'godlygeek/tabular'
-Plug 'idris-hackers/idris-vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
@@ -16,13 +14,13 @@ Plug 'junegunn/limelight.vim'
 Plug 'kamwitsta/flatwhite-vim'
 Plug 'neomake/neomake'
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'prettier/vim-prettier'
 Plug 'scrooloose/nerdcommenter'
 Plug 'sheerun/vim-polyglot'
-Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'prettier/vim-prettier'
 
 call plug#end()
 
