@@ -50,7 +50,8 @@ set visualbell
 set wildignore+=*\\tmp\\*,*.swp,*.swo,*.zip,.git,.cabal-sandbox
 set wildignorecase
 set wildmenu
-set wildmode=longest,list,full
+set wildoptions=pum
+set pumblend=5
 
 let $COLORTERM = 'gnome-terminal' "Fix scrolling issues with nvim and gnome-terminal.
 let g:airline#extensions#cursormode#enabled = 0 "Don't let airline mess up the cursor color
@@ -75,6 +76,7 @@ let g:fzf_colors =
 let g:airline_powerline_fonts = 0
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
+let g:rustfmt_autosave = 1
 
 cnoremap w!! w !sudo tee > /dev/null %
 nnoremap <A-;> ,
@@ -92,7 +94,7 @@ nnoremap <A-k> <C-w>k
 nnoremap <A-l> <C-w>l
 nnoremap <C-k> :Buffers<CR>
 nnoremap <C-p> :Files<CR>
-nnoremap <leader>/ :BLines<CR>
+nnoremap <leader><space> :BLines<CR>
 nnoremap <leader><leader> :noh<CR>
 nnoremap <leader>m :Neomake<CR>
 nnoremap <leader>s :StripWhitespace<CR>
@@ -101,30 +103,38 @@ tnoremap <esc> <C-\><C-n>
 nnoremap <leader>yfp :let @+ = expand("%")<CR>
 
 augroup setup
+  " All file types
   au! BufEnter * EnableStripWhitespaceOnSave
-  au! BufRead,BufNewFile *.md setlocal spell
-  au! BufEnter *.md setlocal tw=80
-  au! BufEnter *.md setlocal complete+=kspell
   au! BufWritePost * Neomake
-  au! FileType markdown setlocal complete+=kspell
-  au! FileType markdown setlocal tw=80
-  au! FileType gitcommit setlocal tw=72
-  au! FileType gitcommit setlocal spell
+
+  " Markdown
+  au! BufEnter,BufRead,BufNewFile *.md setlocal
+        \ tw=80
+        \ spell
+        \ complete+=kspell
+        \ wrap
+        \ linebreak
+        \ nolist
+  au! FileType markdown nnoremap <localleader>d :put =strftime('%c')<CR>
+
+  " Rust
+  au! FileType rust setlocal
+        \ shiftwidth=4
+        \ softtabstop=4
+        \ tabstop=4
+
+  " Git commits
+  au! FileType gitcommit setlocal
+        \ tw=72
+        \ spell
+
+  " Haskell
   au! FileType haskell nnoremap <silent> <leader>ai
         \ vip :sort r /\u.*/<CR> <Bar> :Tabularize /^import qualified\\|^import\\|^$<CR>
+
+  " JavaScript
   au! FileType javascript setlocal formatprg=prettier\ -single-quote\ --trailing-comma\ none
+
+  " Terminal
   au! TermOpen * setlocal conceallevel=0 colorcolumn=0
 augroup END
-
-command! -bang BLines
-  \ call fzf#vim#buffer_lines(<q-args>, {'options': '--no-color'}, <bang>0)
-command! -bang Lines
-  \ call fzf#vim#lines(<q-args>, {'options': '--no-color'}, <bang>0)
-command! -bang Ag
-  \ call fzf#vim#ag(<q-args>, {'options': '--no-color'}, <bang>0)
-command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=never '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \   <bang>0)
