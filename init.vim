@@ -5,17 +5,14 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'airblade/vim-gitgutter'
 Plug 'atelierbram/Base2Tone-vim'
-Plug 'fatih/vim-go'
 Plug 'godlygeek/tabular'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'junegunn/goyo.vim'
-Plug 'junegunn/limelight.vim'
-Plug 'kamwitsta/flatwhite-vim'
+Plug 'mhinz/vim-mix-format'
 Plug 'milkypostman/vim-togglelist'
 Plug 'neomake/neomake'
 Plug 'ntpeters/vim-better-whitespace'
-Plug 'prettier/vim-prettier'
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'scrooloose/nerdcommenter'
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-fugitive'
@@ -54,10 +51,12 @@ set pumblend=5
 
 let $COLORTERM = 'gnome-terminal' "Fix scrolling issues with nvim and gnome-terminal.
 let g:airline#extensions#cursormode#enabled = 0 "Don't let airline mess up the cursor color
-let g:airline_theme='Base2Tone_PoolDark'
+let g:airline_theme = 'Base2Tone_PoolDark'
 let g:haskell_enable_quantification = 1
 let g:haskell_indent_disable = 1
+let g:netrw_liststyle = 0
 let g:netrw_banner = 0
+let g:netrw_preview = 1
 let mapleader = ','
 let g:fzf_colors =
  \ { 'fg':      ['fg', 'Normal'],
@@ -76,6 +75,13 @@ let g:airline_powerline_fonts = 0
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
 let g:rustfmt_autosave = 1
+let g:mix_format_on_save = 1
+let g:prettier#exec_cmd_async = 1
+let g:prettier#config#bracket_spacing = 'true'
+let g:prettier#autoformat = 0 " 'autoformat' only means for only files with '@format' tag.
+
+autocmd BufWritePre *.js,*.jsx,*.ts,*.tsx,*.css,*.less,*.scss Prettier
+",*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html Prettier
 
 cnoremap w!! w !sudo tee > /dev/null %
 nnoremap <A-;> ,
@@ -87,6 +93,7 @@ inoremap <A-h> <C-\><C-N><C-w>h
 inoremap <A-j> <C-\><C-N><C-w>j
 inoremap <A-k> <C-\><C-N><C-w>k
 inoremap <A-l> <C-\><C-N><C-w>l
+tnoremap <A-`> <C-\><C-N>
 nnoremap <A-h> <C-w>h
 nnoremap <A-j> <C-w>j
 nnoremap <A-k> <C-w>k
@@ -98,8 +105,7 @@ nnoremap <leader><leader> :noh<CR>
 nnoremap <leader>m :Neomake<CR>
 nnoremap <leader>s :StripWhitespace<CR>
 nnoremap <silent> <leader>rg :Rg <CR>
-tnoremap <esc> <C-\><C-n>
-nnoremap <leader>yfp :let @+ = expand("%")<CR>
+nnoremap <leader>yp :let @+ = expand("%")<CR>
 
 augroup setup
   " All file types
@@ -136,4 +142,7 @@ augroup setup
 
   " Terminal
   au! TermOpen * setlocal conceallevel=0 colorcolumn=0
+
+  " Turn off colors for Gblame
+  au FileType fugitiveblame setlocal syntax=unknown
 augroup END
